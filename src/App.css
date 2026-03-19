@@ -1,0 +1,86 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background-color: #0a0a0a;
+  color: #e8e8e8;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top-of-page loading bar */
+.app__progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #e8c84a, #f5d96a, #e8c84a);
+  background-size: 200% 100%;
+  animation: progress-slide 1.4s ease infinite;
+  z-index: 200;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.app__progress--visible {
+  opacity: 1;
+}
+
+@keyframes progress-slide {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 404 page */
+.not-found {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.not-found__code {
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #e8c84a;
+  letter-spacing: -2px;
+}
+
+.not-found__msg {
+  font-size: 1.1rem;
+  color: #888;
+}
+
+.not-found__home {
+  margin-top: 8px;
+  padding: 10px 24px;
+  border: 1px solid #e8c84a;
+  border-radius: 6px;
+  background: transparent;
+  color: #e8c84a;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.not-found__home:hover {
+  background: #e8c84a;
+  color: #0a0a0a;
+}
