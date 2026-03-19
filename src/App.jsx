@@ -31,28 +31,37 @@ function readUrlParams() {
   return { carParam: p.get('car'), trackParam: p.get('track') }
 }
 
+// Base path from Vite (e.g. '/gt7' in production, '/' in dev)
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '') // strip trailing slash
+
+/** Strip the base path prefix to get the local route (e.g. '/gt7/terms' → '/terms'). */
+function localPath() {
+  const full = window.location.pathname
+  return full.startsWith(BASE) ? full.slice(BASE.length) || '/' : full
+}
+
 /** Push car + track into the URL without a navigation (replaces current entry). */
 function setUrlParams(car, track) {
   const p = new URLSearchParams()
   if (car) p.set('car', car)
   if (track) p.set('track', track)
   const search = p.toString() ? `?${p.toString()}` : ''
-  window.history.replaceState(null, '', `/${search}`)
+  window.history.replaceState(null, '', `${BASE}/${search}`)
 }
 
 // ── Navigation hook ──────────────────────────────────────────────────────────
 
 function useNavigation() {
-  const [path, setPath] = useState(() => window.location.pathname)
+  const [path, setPath] = useState(() => localPath())
 
   const navigate = useCallback((to) => {
-    window.history.pushState(null, '', to)
+    window.history.pushState(null, '', BASE + to)
     setPath(to)
     window.scrollTo(0, 0)
   }, [])
 
   useEffect(() => {
-    const handler = () => setPath(window.location.pathname)
+    const handler = () => setPath(localPath())
     window.addEventListener('popstate', handler)
     return () => window.removeEventListener('popstate', handler)
   }, [])
