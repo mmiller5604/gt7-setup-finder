@@ -40,3 +40,6 @@ __pycache__/
 .claude/
 start-dev.cmd
 dev.cmd
+
+# Build output zips
+*.zip
